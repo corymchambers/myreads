@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 
 class Book extends Component {
   render() {
+    console.log(this.props.cover.width)
     return (
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" 
               style={{ 
-                width: 128, 
-                height: 193, 
-                backgroundImage: `url(${this.props.bookCover})`
+                width: this.props.cover.width, 
+                height: this.props.cover.height, 
+                backgroundImage: `url(${this.props.cover.image})`
               }}>  
             </div>
             <div className="book-shelf-changer">
