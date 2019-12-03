@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import * as BooksAPI from '../BooksAPI'
 
 class Book extends Component {
+  static propTypes = {
+    // myReads: this.propTypes.array.isRequired
+  }
+
+
   render() {
-    console.log(this.props.cover.width)
+    const {book, cover, updateList} = this.props
     return (
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" 
               style={{ 
-                width: this.props.cover.width, 
-                height: this.props.cover.height, 
-                backgroundImage: `url(${this.props.cover.image})`
+                width: cover.width, 
+                height: cover.height, 
+                backgroundImage: `url(${cover.image})`
               }}>  
             </div>
             <div className="book-shelf-changer">
-              <select>
+              <select value={book.shelf} onChange={(event) => updateList(book, event.target.value)}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -24,8 +31,8 @@ class Book extends Component {
               </select>
             </div>
           </div>
-          <div className="book-title">{this.props.title}</div>
-          <div className="book-authors">{this.props.author}</div>
+          <div className="book-title">{book.title}</div>
+          <div className="book-authors">{book.author}</div>
         </div>
       </li>
     )
