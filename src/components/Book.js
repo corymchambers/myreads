@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 class Book extends Component {
 
   render() {
-    const {book, updateList, myReads, newBook} = this.props
-    const backgroundImage = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : ''
+    const {book, updateList, myReads, newBook} = this.props;
+    const backgroundImage = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : '';
 
+    // If the book doesn't have a shelf, assign it "none" to be used later
     if (!book.shelf && myReads) {
       book.shelf = 'none'
       myReads.map((c) => {
@@ -18,13 +19,11 @@ class Book extends Component {
       <li>
         <div className="book">
           <div className="book-top">
-            <div className="book-cover" 
-              style={{ 
-                width: 128, 
-                height: 193, 
-                backgroundImage: `url(${backgroundImage})`
-              }}>  
-            </div>
+            <img className="book-cover" src={backgroundImage}
+              style={{
+                width: 128,
+                height: 'auto',
+              }} />
             <div className="book-shelf-changer">
               <select value={book.shelf} onChange={(event) => updateList(book, event.target.value, newBook)}>
                 <option value="move" disabled>Move to...</option>
@@ -37,7 +36,7 @@ class Book extends Component {
           </div>
           <div className="book-title">{book.title}</div>
           {book.authors && book.authors.map((a) => (
-            <div 
+            <div
               className="book-authors"
               key={a}
             >{a}</div>

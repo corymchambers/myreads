@@ -6,17 +6,21 @@ class MyReads extends Component {
 
   render() {
     const { myReads, updateList } = this.props;
+
+    // Filter out currentlyReading books from the myReads state
     const currReading = myReads.filter((m) => {
       return m.shelf.includes('currentlyReading')
-    })
+    });
 
+    // Filter out wantToRead books from the myReads state
     const wantToRead = myReads.filter((m) => {
       return m.shelf.includes('wantToRead')
-    })
+    });
 
+    // Filter out the read books from the myReads state
     const read = myReads.filter((m) => {
       return m.shelf.includes('read')
-    })
+    });
 
     return (
       <div className="list-books-content">
@@ -33,11 +37,10 @@ class MyReads extends Component {
                     newBook={false}
                     />
                 ))}
+                {currReading.length === 0 && (
+                  <div>No books being currently read. Try adding some!</div>
+                )}
               </ol>
-
-              {myReads.length === 0 && (
-                <div>No books. Try adding some!</div>
-              )}
             </div>
           </div>
           <div className="bookshelf">
@@ -51,7 +54,10 @@ class MyReads extends Component {
                     updateList={updateList}
                     newBook={false}
                   />
-                ) )}
+                ))}
+                {wantToRead.length === 0 && (
+                  <div>No books being you want to read. Try adding some!</div>
+                )}
               </ol>
             </div>
           </div>
@@ -66,7 +72,10 @@ class MyReads extends Component {
                     updateList={updateList}
                     newBook={false}
                     />
-                ) )}
+                ))}
+                {read.length === 0 && (
+                  <div>No books being you have read. Try adding some!</div>
+                )}
               </ol>
             </div>
           </div>
