@@ -1,28 +1,49 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import * as BooksAPI from '../BooksAPI'
+import * as BooksAPI from '../BooksAPI';
+// import PropTypes from 'prop-types';
 
 class Book extends Component {
-  static propTypes = {
-    // myReads: this.propTypes.array.isRequired
-  }
-
+  // static propTypes = {
+  //   // myReads: this.propTypes.array.isRequired
+  // }
 
   render() {
-    const {book, cover, updateList} = this.props
+    const {book, updateList, myReads, newBook} = this.props
+    // console.log(book.authors)
+    const backgroundImage = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
+    
+    // if (!book.shelf) {
+    //   console.log('shelf')
+    //   BooksAPI.get(book.id)
+    //     .then((res) => {
+    //       console.log(res.shelf)
+    //       book.shelf = res.shelf
+    //     }) 
+    // } 
+
+    if (!book.shelf && myReads) {
+      book.shelf = 'none'
+      myReads.map((c) => {
+        if (c.id === book.id) {
+          book.shelf = c.shelf
+        }
+      })
+    }
+
+    
     return (
       <li>
         <div className="book">
           <div className="book-top">
             <div className="book-cover" 
               style={{ 
-                width: cover.width, 
-                height: cover.height, 
-                backgroundImage: `url(${cover.image})`
+                width: 128, 
+                height: 193, 
+                backgroundImage: `url(${backgroundImage})`
               }}>  
             </div>
             <div className="book-shelf-changer">
-              <select value={book.shelf} onChange={(event) => updateList(book, event.target.value)}>
+              <select value={book.shelf} onChange={(event) => updateList(book, event.target.value, newBook)}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>
@@ -32,7 +53,12 @@ class Book extends Component {
             </div>
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.author}</div>
+          {book.authors && book.authors.map((a) => (
+            <div 
+              className="book-authors"
+              key={a}
+            >{a}</div>
+          ))}
         </div>
       </li>
     )

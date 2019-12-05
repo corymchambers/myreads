@@ -5,7 +5,6 @@ class MyReads extends Component {
 
   render() {
     const { myReads, updateList } = this.props;
-    console.log(myReads)
     const currReading = myReads.filter((m) => {
       return m.shelf.includes('currentlyReading')
     })
@@ -29,13 +28,9 @@ class MyReads extends Component {
                   <Book
                     key={book.id}
                     book={book}
-                    cover={{
-                      image: book.imageLinks.thumbnail,
-                      width: 128,
-                      height: 193
-                    }}
                     updateList={updateList}
-                  />
+                    newBook={false}
+                    />
                 ))}
               </ol>
 
@@ -52,13 +47,9 @@ class MyReads extends Component {
                   <Book
                     key={book.id}
                     book={book}
-                    cover={{
-                      image: book.imageLinks.thumbnail,
-                      width: 128,
-                      height: 193
-                    }}
                     updateList={updateList}
-                    />
+                    newBook={false}
+                  />
                 ) )}
               </ol>
             </div>
@@ -71,12 +62,8 @@ class MyReads extends Component {
                   <Book
                     key={book.id}
                     book={book}
-                    cover={{
-                      image: book.imageLinks.thumbnail,
-                      width: 128,
-                      height: 193
-                    }}
                     updateList={updateList}
+                    newBook={false}
                     />
                 ) )}
               </ol>

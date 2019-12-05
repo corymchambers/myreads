@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import { Route, Link } from 'react-router-dom';
 import MyReads from './components/MyReads';
+import Search from './components/Search';
 
 class BooksApp extends Component {
   state = {
@@ -18,52 +19,40 @@ class BooksApp extends Component {
       })
   }
 
-  updateMyReads = (book, shelf) => {
-    console.log(book, shelf)
-    this.setState((currentState) => ({
-      myReads: currentState.myReads.map((c) => {
-        if (c.id == book.id) {
-          c.shelf = shelf
-        } 
-        return c
-      })
-
-    }))
-
+  updateMyReads = (book, shelf, newBook) => {
+    if (newBook === true) {
+      book.shelf = shelf
+      this.setState((currentState) => ({
+        myReads: currentState.myReads.concat([book])
+      }))
+    } else {
+      this.setState((currentState) => ({
+        myReads: currentState.myReads.map((c) => {
+          if (c.id === book.id) {
+            c.shelf = shelf
+          } 
+          return c
+        })
+      }))
+    }
     BooksAPI.update(book, shelf)
-
   }
 
   render() {
     return (
       <div className="app">          
         <Route exact path='/search' render={({history}) => (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <Link 
-                className="close-search"
-                to='/'
-              />
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <Search
+            updateList={this.updateMyReads}
+            // updateList={(book, shelf, newBook) => {
+            //   this.updateMyReads(book, shelf, newBook)
+            //   // history.push('/')
+            // }}
+            myReads={this.state.myReads}
+          />
         )} />
         
-        <Route exact path='/' render={({histry}) => (
+        <Route exact path='/' render={({history}) => (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -74,7 +63,7 @@ class BooksApp extends Component {
             />
             <div className="open-search">
               <Link to='search'>
-                <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+                <button>Add a book</button>
               </Link>
             </div>
         </div>
