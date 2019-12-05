@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI';
 import Book from './Book';
+import PropTypes from 'prop-types';
 
 class Search extends Component {
 
@@ -13,7 +14,6 @@ class Search extends Component {
     if (query !== '') {
       BooksAPI.search(query)
       .then((results) => {
-        // console.log(results.length);
         const newSearchResults = (results.length > 0) ? results : []
         this.setState(() => ({
           searchResults: newSearchResults
@@ -79,6 +79,11 @@ class Search extends Component {
       </div>
     )
   }
+}
+
+Search.propTypes = {
+  myReads: PropTypes.array.isRequired,
+  updateList: PropTypes.func.isRequired
 }
 
 export default Search;

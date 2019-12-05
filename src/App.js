@@ -44,10 +44,6 @@ class BooksApp extends Component {
         <Route exact path='/search' render={({history}) => (
           <Search
             updateList={this.updateMyReads}
-            // updateList={(book, shelf, newBook) => {
-            //   this.updateMyReads(book, shelf, newBook)
-            //   // history.push('/')
-            // }}
             myReads={this.state.myReads}
           />
         )} />

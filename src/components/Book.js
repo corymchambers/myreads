@@ -1,36 +1,19 @@
 import React, { Component } from 'react';
-import * as BooksAPI from '../BooksAPI';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class Book extends Component {
-  // static propTypes = {
-  //   // myReads: this.propTypes.array.isRequired
-  // }
 
   render() {
     const {book, updateList, myReads, newBook} = this.props
-    // console.log(book.authors)
-    const backgroundImage = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'
-    
-    // if (!book.shelf) {
-    //   console.log('shelf')
-    //   BooksAPI.get(book.id)
-    //     .then((res) => {
-    //       console.log(res.shelf)
-    //       book.shelf = res.shelf
-    //     }) 
-    // } 
+    const backgroundImage = (book.imageLinks && book.imageLinks.thumbnail) ? book.imageLinks.thumbnail : ''
 
     if (!book.shelf && myReads) {
       book.shelf = 'none'
       myReads.map((c) => {
-        if (c.id === book.id) {
-          book.shelf = c.shelf
-        }
+        return book.shelf = (c.id === book.id) ? c.shelf : book.shelf
       })
     }
 
-    
     return (
       <li>
         <div className="book">
@@ -63,6 +46,13 @@ class Book extends Component {
       </li>
     )
   }
+}
+
+Book.propTypes = {
+  myReads: PropTypes.array,
+  updateList: PropTypes.func.isRequired,
+  book: PropTypes.object.isRequired,
+  newBook: PropTypes.bool.isRequired,
 }
 
 export default Book;
