@@ -11,14 +11,21 @@ class BooksApp extends Component {
   }
 
   // Once component is mounted this will get all the books for the user and save to the myReads state
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((myReads) => {
-        this.setState(() => ({
-          myReads
-        }))
-      })
+
+  //commented out the old function
+  // use async + await to work with promises in a more comfort fashion
+  async componentDidMount() {
+    const myReads = await BooksAPI.getAll()
+    this.setState({myReads})
   }
+  // componentDidMount() {
+  //   BooksAPI.getAll()
+  //     .then((myReads) => {
+  //       this.setState(() => ({
+  //         myReads
+  //       }))
+  //     })
+  // }
 
   /**
    * @description Updates the myReads state or adds to it
